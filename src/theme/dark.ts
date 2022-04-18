@@ -1,0 +1,1 @@
+export const backgroundColor = '#2e3337';
