@@ -13,11 +13,11 @@ The `<n-popup>` component is specially designed for mobile solution but totally 
 <n-config-provider style="width: 100%; height: 100%;">
   <!-- By default, width and height are 100% of parent element -->
   <n-popup-provider>
-    <n-popup trigger="click" title="Dont trust, verify." v-model:show="showRef">
+    <n-popup trigger="click" type="layer" title="Dont trust, verify." v-model:show="showRef">
       <template #trigger>
         <n-button>Open NPopover</n-button>
       </template>
-      Hellow World from the popup!
+      Hello World from the popup!
     </n-popup>
   </n-popup-provider>
 </n-config-provider>
@@ -27,6 +27,7 @@ The `<n-popup>` component is specially designed for mobile solution but totally 
 
 - `show`: Boolean modeled value that can be `true` or `false`. Optional.
 - `trigger`: `click`, `hover` or `manual`. In case of `manual`, the modeled `show` property should be implemented of course. Default is `click`.
+- `type`: `layer` or `frame`. Describes just the lookm of the popup wether it's more "desktop like" or "mobile like". Default is `layer` hwich is the one looking more like Apple's iOS popovers.
 - `title`: The title text which will be inserted into a `<n-h2>` element in case you're not using `#template` slot. Optional.
 
 

@@ -15,16 +15,21 @@ import { VueSlot } from './NPopupProvider.vue';
 const popupId = nanoid();
 
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   trigger: 'click' | 'hover' | 'manual';
   title?: string;
   show?: boolean;
-}>();
+  type?: 'layer' | 'frame';
+}>(), {
+  trigger: 'click',
+  type: 'layer',
+  title: undefined
+});
 const emit = defineEmits(['update:show']);
 
 const slots = useSlots();
 
-const showPopup = inject<(id: string, slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot) => void>('showPopup');
+const showPopup = inject<(id: string, type: 'layer' | 'frame', slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot) => void>('showPopup');
 const getPopupIndex = inject<(id: string) => number>('getPopupIndex');
 
 
@@ -46,7 +51,7 @@ const popupIsVisible = computed<boolean>({
               h(NH2, { innerHTML: props.title })
             ];
           }) : undefined;
-          showPopup(popupId, slots.default, slotTitle, slots.actions, slots['close-btn'], slots.header);
+          showPopup(popupId, props.type, slots.default, slotTitle, slots.actions, slots['close-btn'], slots.header);
         }
       }
     }

@@ -28,12 +28,18 @@ const showP1 = ref(false);
           Vertical NTabsNav
           <n-switch v-model:value="verticalTabNav"></n-switch>
           <br /><br />
-          <n-popup trigger="click" title="Hello World!" v-model:show="showP1">
+          <n-popup trigger="click" type="frame" title="Hello World!" v-model:show="showP1">
             <template #trigger>
               <n-button>Open NPopup</n-button>
             </template>
             <span>Lol was geht denn hier ab?</span>
             <p>WHAT THE FUCK</p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio dignissimos eaque libero, facere doloribus unde sunt nostrum tempora nulla fugiat ipsam aliquam eos distinctio magni similique incidunt est reprehenderit fugit.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure incidunt nobis animi sint voluptate cupiditate eaque tenetur quas deserunt aperiam tempore placeat quaerat tempora vitae dolore velit facere, distinctio nisi!
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio dignissimos eaque libero, facere doloribus unde sunt nostrum tempora nulla fugiat ipsam aliquam eos distinctio magni similique incidunt est reprehenderit fugit.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure incidunt nobis animi sint voluptate cupiditate eaque tenetur quas deserunt aperiam tempore placeat quaerat tempora vitae dolore velit facere, distinctio nisi!
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio dignissimos eaque libero, facere doloribus unde sunt nostrum tempora nulla fugiat ipsam aliquam eos distinctio magni similique incidunt est reprehenderit fugit.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure incidunt nobis animi sint voluptate cupiditate eaque tenetur quas deserunt aperiam tempore placeat quaerat tempora vitae dolore velit facere, distinctio nisi!
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio dignissimos eaque libero, facere doloribus unde sunt nostrum tempora nulla fugiat ipsam aliquam eos distinctio magni similique incidunt est reprehenderit fugit.
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure incidunt nobis animi sint voluptate cupiditate eaque tenetur quas deserunt aperiam tempore placeat quaerat tempora vitae dolore velit facere, distinctio nisi!
 

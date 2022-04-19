@@ -1,5 +1,5 @@
 <template>
-  <div class="n-popup-wrapper" :data-popup-id="id" :style="{ ['--max-offset' as string]: maxOffset, ['--background-color' as string]: customTheme[darkMode ? 'dark' : 'light'].backgroundColor, ['--header-sticky-offset' as string]: headerStickyOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level, ['--real-scroll-y' as string]: realScrollY }" @click="handleWrapperClick">
+  <div class="n-popup-wrapper" :class="{ [`type-${ type }`]: true }" :data-popup-id="id" :style="{ ['--max-offset' as string]: maxOffset, ['--background-color' as string]: customTheme[darkMode ? 'dark' : 'light'].backgroundColor, ['--header-sticky-offset' as string]: headerStickyOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level, ['--real-scroll-y' as string]: realScrollY }" @click="handleWrapperClick">
     <div ref="wrapperRef" class="wrapper-inner">
       <div ref="frameRef" class="popup">
         <header ref="headerRef">
@@ -52,6 +52,7 @@ export interface NPopupWrappedDescriptor {
   slotNodesHeader?: VNode[];
   title?: string;
   level?: number;
+  type: 'layer' | 'frame';
 }
 defineProps<NPopupWrappedDescriptor>();
 const emit = defineEmits(['close']);
@@ -181,6 +182,35 @@ onMounted(calcMaskOffset);
     
   }
 }
+.n-popup-wrapper.type-frame {
+  .wrapper-inner {
+    display: grid;
+    grid-template-columns: auto max-content auto;
+    grid-template-rows: auto max-content auto;
+    overflow: hidden;
+  }
+  .popup {
+    overflow: hidden;
+    grid-row: 2 / span 1;
+    grid-column: 2 / span 1;
+    --offset: 20px;
+    position: static;
+    max-height: calc(100vh - var(--offset) * 2);
+    max-width: calc(100vw - var(--offset) * 2);
+    background-color: var(--background-color);
+    grid-template-rows: max-content auto;
+    border-radius: var(--border-radius);
+    > header, > main {
+      background-color: transparent;
+    }
+    > header {
+
+    }
+    > main {
+      overflow: scroll;
+    }
+  }
+}
 </style>
 
 <style scoped lang="scss">
@@ -190,28 +220,25 @@ onMounted(calcMaskOffset);
 }
 .popup-enter-from, .popup-leave-to {
   background-color: rgba(0, 0, 0, 0) !important;
-}
-.popup-enter-to, .popup-leave-from {
-
-}
-.popup-enter-from {
   .popup {
     transform: translate(0, 100%);
   }
 }
-.popup-enter-to {
+.popup-enter-active.type-frame, .popup-leave-active.type-frame {
+   transition-duration: calc(var(--transition-duration) * 1.25);
   .popup {
-    transform: translate(0, 0%);
+    transition-timing-function: cubic-bezier(.35,-0.01,.29,1.24);
+    transition-duration: calc(var(--transition-duration) * 1.25);
   }
 }
-.popup-leave-from {
+.popup-enter-from.type-frame, .popup-leave-to.type-frame {
   .popup {
-    transform: translate(0, 0%);
+    transform: scale(0);
   }
 }
-.popup-leave-to {
+.popup-enter-to.type-frame, .popup-leave-from.type-frame {
   .popup {
-    transform: translate(0, 100%);
+    transform: scale(1);
   }
 }
 </style>
