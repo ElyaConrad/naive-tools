@@ -1,6 +1,6 @@
 {
   "name": "naive-tools",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "src/index.ts",
   "scripts": {
@@ -15,7 +15,7 @@
       "patterns": [
         "src"
       ],
-      "extensions": "ts,scss",
+      "extensions": "ts,scss,vue",
       "quiet": false
     }
   },

@@ -53,16 +53,21 @@ const handleClick = () => {
     padding: 5px;
   }
   .icon-wrapper {
-    font-size: var(--icon-size);
     padding: 0;
-    height: calc(var(--icon-size) + 4px);
+    height: calc(var(--icon-size) + 0px);
     padding: 0 0;
     order: 1;
+    text-align: center;
+    font-size: 0rem;
+    ::v-deep(> *) {
+      font-size: var(--icon-size);
+    }
     
   }
   .label-wrapper {
     font-size: var(--text-size);
     order: 2;
+    text-align: center;
   }
 
 }
@@ -114,12 +119,13 @@ const handleClick = () => {
   }
   .label-wrapper {
     order: 2;
-    padding: 0 0 0 10px;
+    padding: 0 10px 0 10px;
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: auto max-content auto;
     > .label {
       grid-row: 2 / span 1;
+      text-align: left;
     }
   }
 }

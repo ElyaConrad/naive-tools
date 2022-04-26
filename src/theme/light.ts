@@ -1,1 +1,0 @@
-export const backgroundColor = 'rgb(252, 252, 252)';

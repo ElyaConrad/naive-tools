@@ -1,7 +1,7 @@
 <template>
   <div class="n-tabs-nav" :class="{ [`pointer-${ pointer }`]: true, vertical }" :style="{ ['--tabs-count' as string]: tabItems.length, ['--active-tab-index' as string]: activeTabItemIndex, ...themeCSSVars, ['--primary-color-shape' as string]: `rgba(${ colorToString(hexToRgba(theme.primaryColor, 0.1)) })`, ['--text-color-unfocus' as string]: `rgba(${ colorToString(hexToRgba(theme.textColorBase, 0.7)) })` }">
     <div class="inner">
-      <div v-if="pointer" class="pointer-wrapper">
+      <div v-if="pointer !== 'none'" class="pointer-wrapper">
         <div class="pointer" />
       </div>
       <div ref="innerRef" class="items-wrapper">

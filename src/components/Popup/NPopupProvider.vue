@@ -63,7 +63,6 @@ provide('getPopupIndex', getPopupIndex);
 
 
 </script>
-
 <style scoped lang="scss">
 .n-popup-provider {
   position: relative;
@@ -72,11 +71,12 @@ provide('getPopupIndex', getPopupIndex);
   .app-wrapper {
     height: 100%;
     transform-origin: center center;
-    transition: all var(--transition-duration);
+    transition: transform calc(1.2 * var(--transition-duration)), filter var(--transition-duration);
   }
   .app-wrapper.unfocused {
-    background-color: rgba(0, 0, 0, 0.05);
+    filter: brightness(0.9);
     border-radius: 10px;
+    overflow: hidden;
     transform: scale(0.9) translate(0, -3%);
   }
   .popups-wrapper {
@@ -85,7 +85,7 @@ provide('getPopupIndex', getPopupIndex);
 }
 .n-popup-provider.dark-mode {
   .app-wrapper.unfocused {
-    background-color: rgba(255, 255, 255, 0.04);
+    filter: brightness(1.2);
   }
 }
 </style>
