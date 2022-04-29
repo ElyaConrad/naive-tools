@@ -1,8 +1,7 @@
 {
   "name": "naive-tools",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
-  "main": "src/index.ts",
   "scripts": {
     "serve": "npm link && npm-watch build:dev",
     "build:dev": "vite build -c vite.config.ts",
