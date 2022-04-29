@@ -5,7 +5,7 @@
     </div>
     <div class="popups-wrapper">
       <transition-group name="popup">
-        <n-popup-wrapper v-for="({ slotNodes, slotNodesTitle, slotNodesActions, slotNodesCloseBtn, slotNodesHeader, id, type }, i) in popups" :id="id" :key="i" :level="popups.length - 1 - i" :type="type" :slot-nodes="slotNodes" :slot-nodes-title="slotNodesTitle" :slot-nodes-actions="slotNodesActions" :slot-nodes-close-btn="slotNodesCloseBtn" :slot-nodes-header="slotNodesHeader" @close="leavePopup(id)">
+        <n-popup-wrapper v-for="({ slotNodes, slotNodesTitle, slotNodesActions, slotNodesCloseBtn, slotNodesHeader, id, type, transculent }, i) in popups" :id="id" :key="i" :level="popups.length - 1 - i" :type="type" :transculent="transculent" :slot-nodes="slotNodes" :slot-nodes-title="slotNodesTitle" :slot-nodes-actions="slotNodesActions" :slot-nodes-close-btn="slotNodesCloseBtn" :slot-nodes-header="slotNodesHeader" @close="leavePopup(id)">
           <template v-if="slotNodesTitle" #title>
             <component :is="slotNode" v-for="(slotNode, n) in slotNodesTitle" :key="n" />
           </template>
@@ -25,26 +25,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, VNode } from 'vue';
+import { ref, provide, VNode, computed, Ref, ComputedRef } from 'vue';
 import isDarkMode from '../../util/isDarkMode';
 import NPopupWrapper, { NPopupWrappedDescriptor } from './NPopupWrapper.vue';
 
 export type VueSlot = () => VNode[];
 
+export type NPopupWrappedDescriptorWrapped = {
+  id: string;
+  slotNodes: ComputedRef<Ref<VNode[]>>;
+  slotNodesTitle?: ComputedRef<Ref<VNode[] | undefined>>;
+  slotNodesCloseBtn?: ComputedRef<Ref<VNode[] | undefined>>;
+  slotNodesActions?: ComputedRef<Ref<VNode[] | undefined>>;
+  slotNodesHeader?: ComputedRef<Ref<VNode[] | undefined>>;
+  title?: string;
+  level?: number;
+  type: 'layer' | 'frame';
+  transculent?: boolean;
+}
+
 const darkMode = isDarkMode();
 
-const popups = ref<NPopupWrappedDescriptor[]>([]);
-function showPopup(id: string, type: 'layer' | 'frame', slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot) {
+const popups = ref<NPopupWrappedDescriptorWrapped[]>([]);
+function showPopup(id: string, type: 'layer' | 'frame', transculent: boolean, slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot) {
+
+  
   popups.value = [
     ...popups.value,
     {
       id,
-      slotNodes: slot(),
-      slotNodesTitle: slotTitle ? slotTitle() : undefined,
-      slotNodesActions: slotActions ? slotActions() : undefined,
-      slotNodesCloseBtn: slotCloseBtn ? slotCloseBtn() : undefined,
-      slotNodesHeader: slotHeader ? slotHeader() : undefined,
-      type
+      slotNodes: computed(() => slot()),
+      slotNodesTitle: computed(() => slotTitle ? slotTitle() : undefined),
+      slotNodesActions: computed(() => slotActions ? slotActions() : undefined),
+      slotNodesCloseBtn: computed(() => slotCloseBtn ? slotCloseBtn() : undefined),
+      slotNodesHeader: computed(() => slotHeader ? slotHeader() : undefined),
+      type,
+      transculent
     },
 
   ];
