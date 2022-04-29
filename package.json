@@ -1,6 +1,6 @@
 {
   "name": "naive-tools",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "scripts": {
     "serve": "npm link && npm-watch build:dev",
@@ -8,6 +8,13 @@
     "build": "vue-tsc --project tsconfig.json && vite build -c vite.config.ts && tsc --project tsconfig.json",
     "lint": "eslint src --ext .ts,.vue",
     "test": "jest"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/naive-mobile.es.js",
+      "require": "./lib/naive-mobile.umd.js"
+    },
+    "./style.css": "./lib/style.css"
   },
   "files": [
     "lib",
