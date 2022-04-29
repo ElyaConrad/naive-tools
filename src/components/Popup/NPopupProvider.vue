@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { ref, provide, VNode, computed, Ref, ComputedRef } from 'vue';
 import isDarkMode from '../../util/isDarkMode';
-import NPopupWrapper, { NPopupWrappedDescriptor } from './NPopupWrapper.vue';
+import NPopupWrapper from './NPopupWrapper.vue';
 
 export type VueSlot = () => VNode[];
 
