@@ -148,6 +148,7 @@ onMounted(calcMaskOffset);
         background-color: var(--popup-background-color);
         z-index: 1;
         clip-path: inset(max(calc(var(--mask-offset) * 1px) + var(--border-radius), 0px) 0 0 0);
+        -webkit-clip-path: inset(max(calc(var(--mask-offset) * 1px) + var(--border-radius), 0px) 0 0 0);
       }
     }
   }
@@ -172,6 +173,7 @@ onMounted(calcMaskOffset);
     border-radius: var(--border-radius);
     overflow: scroll;
     clip-path: inset(0% 0% 0% 0% round 12px);
+    -webkit-clip-path: inset(0% 0% 0% 0% round 12px);
     > header, > main {
       
     }
@@ -202,6 +204,7 @@ onMounted(calcMaskOffset);
       }
        > main {
          clip-path: inset(0 0 0 0 round 12px 12px 0 0);
+         -webkit-clip-path: inset(0 0 0 0 round 12px 12px 0 0);
        }
     }
   }
