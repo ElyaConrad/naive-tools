@@ -109,11 +109,11 @@ onMounted(calcMaskOffset);
     transform-origin: center 25vh;
     transform: scale(calc(1 - 0.1 * var(--level))) translateY(calc(-5% * var(--level)));
     .popup {
-      height: calc(100%);
+      height: calc(100% - 1px * var(--min-offset));
       overflow: scroll;
       position: relative;
       --border-radius: 12px;
-      /*top: calc(1px * var(--min-offset));*/
+      top: calc(1px * var(--min-offset));
       border-radius: var(--border-radius) var(--border-radius) 0 0;
       display: grid;
       grid-template-rows: max-content auto;
@@ -124,7 +124,8 @@ onMounted(calcMaskOffset);
         padding: 15px 15px;
         border-radius: var(--border-radius) var(--border-radius) 0 0;
         position: sticky;
-        top: calc(1px * var(--min-offset));
+        top: 0;
+        /*top: calc(1px * var(--min-offset));*/
         display: grid;
         grid-template-columns: auto max-content;
         .area-title {
@@ -147,8 +148,9 @@ onMounted(calcMaskOffset);
       > main {
         background-color: var(--popup-background-color);
         z-index: 1;
-        clip-path: inset(max(calc(var(--mask-offset) * 1px) + var(--border-radius), 0px) 0 0 0);
-        -webkit-clip-path: inset(max(calc(var(--mask-offset) * 1px) + var(--border-radius), 0px) 0 0 0);
+        /*clip-path: inset(max(calc(var(--mask-offset) * 1px) + var(--border-radius), 0px) 0 0 0);
+        -webkit-clip-path: inset(max(calc(var(--mask-offset) * 1px) + var(--border-radius), 0px) 0 0 0);*/
+        
       }
     }
   }
@@ -190,6 +192,8 @@ onMounted(calcMaskOffset);
 .n-popup-wrapper.transculent {
   .wrapper-inner {
     .popup {
+      clip-path: inset(0 0 0 0 round 12px 12px 0 0);
+      -webkit-clip-path: inset(0 0 0 0 round 12px 12px 0 0);
       > header {
         height: 0px;
         box-sizing: border-box;
