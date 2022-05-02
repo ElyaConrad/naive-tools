@@ -107,13 +107,14 @@ onMounted(calcMaskOffset);
     overflow: hidden;
     transition: all 0.5s;
     transform-origin: center 25vh;
-    transform: scale(calc(1 - 0.1 * var(--level))) translateY(calc(-5% * var(--level)));
+    transform: scale(calc(1 - 0.1 * var(--level))) translateY(calc(-5% * var(--level) - 0px));
     .popup {
-      height: calc(100% - 1px * var(--min-offset));
+      --top: calc(1px * var(--min-offset) + var(--offset-top-safe-area));
+      height: calc(100% - var(--top));
       overflow: scroll;
       position: relative;
       --border-radius: 12px;
-      top: calc(1px * var(--min-offset));
+      top: var(--top);
       border-radius: var(--border-radius) var(--border-radius) 0 0;
       display: grid;
       grid-template-rows: max-content auto;

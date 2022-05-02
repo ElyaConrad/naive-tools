@@ -84,6 +84,7 @@ provide('getPopupIndex', getPopupIndex);
   position: relative;
   --transition-duration: .4s;
   height: 100%;
+  --offset-top-safe-area: env(safe-area-inset-top);
   .app-wrapper {
     height: 100%;
     transform-origin: center center;
@@ -93,7 +94,7 @@ provide('getPopupIndex', getPopupIndex);
     filter: brightness(0.9);
     border-radius: 10px;
     overflow: hidden;
-    transform: scale(0.9) translate(0, -3%);
+    transform: scale(0.9) translate(0, calc(-3% - var(--offset-top-safe-area)));
   }
   .popups-wrapper {
     
