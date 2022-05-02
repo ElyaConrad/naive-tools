@@ -29,6 +29,7 @@ The `<n-popup>` component is specially designed for mobile solution but totally 
 - `trigger`: `click`, `hover` or `manual`. In case of `manual`, the modeled `show` property should be implemented of course. Default is `click`.
 - `type`: `layer` or `frame`. Describes just the lookm of the popup wether it's more "desktop like" or "mobile like". Default is `layer` hwich is the one looking more like Apple's iOS popovers.
 - `title`: The title text which will be inserted into a `<n-h2>` element in case you're not using `#template` slot. Optional.
+- `transculent`: Wether the popup style is transculent style
 
 
 ### Title as slot
@@ -86,6 +87,14 @@ To set the complete header by your own, use the `#header` slot which will overwr
 </n-popup>
 ```
 
+
+### Transculent
+
+```html
+<n-popup title="I am a cool one!" transculent>
+  Oh my dear!
+</n-popup>
+```
 
 ## N Tabs Nav
 
