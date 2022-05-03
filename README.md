@@ -2,6 +2,13 @@
 
 This library is used to be an *extension* for [Naive UI](https://naiveui.com) with the goal to provide useful components for using Naive UI in a mobile application. Even if mobile usage is the main use case for this library, it's currently just a component based extension without any try to provide logical behaviour such as a component-related switch for mobile / desktop environments.
 
+## Import
+
+```javascript
+import { NPopupProvider, NPopup, NTabsNav, NTabItemNav }  from 'naive-tools';
+import 'naive-tools/style.css';
+```
+
 ## N Popup
 
 The `<n-popup>` component is specially designed for mobile solution but totally works on desktop (and looks great there). It's inspired by Apple's iOS popover style. To use it, there needs to exist a parental `<n-popup-provider>`. This is needed because of the fact, that multiple popup's will be layed over each other independently where they come from and the "ui effect" is ambitious from a DOM's perspective. This fact also makes it possible to let a popup just overlay a specific area and not the whole application which is a nice feature in case of more complex user interfaces.
