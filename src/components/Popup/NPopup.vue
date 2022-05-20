@@ -1,6 +1,6 @@
 <template>
   <div class="n-popup__root">
-    <div class="trigger-wrapper" @click="handleTriggerClick" @mouseenter="handleTriggerMouseenter">
+    <div v-if="trigger !== 'manual'" class="trigger-wrapper" @click="handleTriggerClick" @mouseenter="handleTriggerMouseenter">
       <slot name="trigger" />
     </div>
   </div>
