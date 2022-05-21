@@ -158,25 +158,28 @@ onMounted(calcMaskOffset);
 }
 .n-popup-wrapper.type-frame {
   .wrapper-inner {
-    display: grid;
-    grid-template-columns: auto max-content auto;
-    grid-template-rows: auto max-content auto;
     overflow: hidden;
     
   }
   .popup {
-    grid-row: 2 / span 1;
-    grid-column: 2 / span 1;
-    --offset: 20px;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 40px);
+    top: calc(40px / 2);
+    left: calc(40px / 2);
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--popup-background-color);
+    /*--offset: 20px;
     position: static;
-    max-height: calc(100vh - var(--offset) * 2);
+    max-height: calc(100vh + 220px);
     max-width: calc(100vw - var(--offset) * 2);
     background-color: var(--popup-background-color);
     grid-template-rows: max-content auto;
     border-radius: var(--border-radius);
     overflow: scroll;
     clip-path: inset(0% 0% 0% 0% round 12px);
-    -webkit-clip-path: inset(0% 0% 0% 0% round 12px);
+    -webkit-clip-path: inset(0% 0% 0% 0% round 12px);*/
     > header, > main {
       
     }
