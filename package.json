@@ -1,6 +1,6 @@
 {
   "name": "naive-tools",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "",
   "scripts": {
     "serve": "npm link && npm-watch build:dev",

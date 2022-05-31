@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSlots, inject, computed, watch, h } from 'vue';
+import { useSlots, inject, computed, watch, h, watchEffect } from 'vue';
 import { nanoid } from 'nanoid';
 import { NH2 } from 'naive-ui';
 import { VueSlot } from './NPopupProvider.vue';
@@ -32,8 +32,8 @@ const emit = defineEmits(['update:show']);
 const slots = useSlots();
 
 const showPopup = inject<(id: string, type: 'layer' | 'frame', transculent: boolean, slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot) => void>('showPopup');
+const leavePopup = inject<(id: string) => void>('leavePopup');
 const getPopupIndex = inject<(id: string) => number>('getPopupIndex');
-
 
 const popupIsVisible = computed<boolean>({
   get() {
@@ -57,6 +57,9 @@ const popupIsVisible = computed<boolean>({
           showPopup(popupId, props.type, props.transculent, slots.default, slotTitle, slots.actions, slots['close-btn'], slots.header);
         }
       }
+      else if (leavePopup) {
+        leavePopup(popupId);
+      }
     }
   }
 });
@@ -66,6 +69,8 @@ watch(popupIsVisible, (newState: boolean) => {
   emit('update:show', newState);
 });
 watch(() => props.show, () => {
+  console.log('NEW SHOW', props.show);
+  
   if (props.show !== popupIsVisible.value) {
     popupIsVisible.value = !!props.show;
   }
