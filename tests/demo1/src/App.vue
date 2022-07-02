@@ -11,7 +11,6 @@ const verticalTabNav = ref(true);
 
 const activeTab = ref('dashboard');
 
-console.log(NTabsNav);
 
 const showP1 = ref(false);
 

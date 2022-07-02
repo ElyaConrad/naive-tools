@@ -69,7 +69,6 @@ watch(popupIsVisible, (newState: boolean) => {
   emit('update:show', newState);
 });
 watch(() => props.show, () => {
-  console.log('NEW SHOW', props.show);
   
   if (props.show !== popupIsVisible.value) {
     popupIsVisible.value = !!props.show;

@@ -76,12 +76,6 @@ const activeTabItemIndex = computed(() => {
 });
 provide('activeTabItemName', activeTabItemName);
 
-onMounted(() => {
-  setTimeout(() => {
-    console.log(tabItems.value);
-  }, 500);
-});
-
 
 const themeCSSVars = computed(() => {
   // @ts-expect-error type is okay
