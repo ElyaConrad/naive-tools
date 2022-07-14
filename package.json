@@ -1,11 +1,12 @@
 {
   "name": "naive-tools",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "",
   "scripts": {
     "serve": "npm link && npm-watch build:dev",
     "build:dev": "vite build -c vite.config.ts",
     "build": "vue-tsc --project tsconfig.json && vite build -c vite.config.ts && tsc --project tsconfig.json",
+    "build:types": "tsc --build tsconfigtypes.json",
     "lint": "eslint src --ext .ts,.vue",
     "test": "jest"
   },

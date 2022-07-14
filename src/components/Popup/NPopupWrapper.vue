@@ -1,5 +1,5 @@
 <template>
-  <div class="n-popup-wrapper" :class="{ [`type-${ type }`]: true, transculent }" :data-popup-id="id" :style="{ ['--min-offset' as string]: minOffset, ['--max-offset' as string]: maxOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level }" @click="handleWrapperClick">
+  <div class="n-popup-wrapper" :class="{ [`type-${ type }`]: true, transculent }" :data-popup-id="id" :style="{ ['--min-offset' as string]: minOffset, ['--max-offset' as string]: maxOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level, ['--popup-background-color-default' as string]: darkMode ? '#2e3337' : 'rgb(252, 252, 252)' }" @click="handleWrapperClick">
     <div class="wrapper-inner">
       <div ref="popupRef" class="popup">
         <header ref="headerRef">
@@ -28,7 +28,12 @@
           </template>
         </header>
         <main ref="mainRef">
-          <component :is="popupVNode" v-for="(popupVNode, i) in slotNodes" :key="i" />
+          <template v-if="type === 'frame'">
+            <n-scrollbar>
+              <component :is="popupVNode" v-for="(popupVNode, i) in slotNodes" :key="i" />
+            </n-scrollbar>
+          </template>
+          <component :is="popupVNode" v-for="(popupVNode, i) in slotNodes" v-else :key="i" />
         </main>
       </div>
     </div>
@@ -38,8 +43,9 @@
 
 <script setup lang="ts">
 import { ref, useSlots, onMounted, VNode, Ref } from 'vue';
-import { NButton, NIcon } from 'naive-ui';
+import { NButton, NIcon, NScrollbar } from 'naive-ui';
 import { CloseOutline } from '@vicons/ionicons5';
+import isDarkMode from '../../util/isDarkMode';
 
 export interface NPopupWrappedDescriptor {
   id: string;
@@ -55,6 +61,8 @@ export interface NPopupWrappedDescriptor {
 }
 defineProps<NPopupWrappedDescriptor>();
 const emit = defineEmits(['close']);
+
+const darkMode = isDarkMode();
 
 
 const slots = useSlots();
@@ -120,7 +128,7 @@ onMounted(calcMaskOffset);
       grid-template-rows: max-content auto;
       > header {
         margin-top: calc(1px * var(--max-offset));
-        background-color: var(--popup-background-color);
+        background-color: var(--popup-background-color, var(--popup-background-color-default));
         z-index: 2;
         padding: 15px 15px;
         border-radius: var(--border-radius) var(--border-radius) 0 0;
@@ -147,7 +155,7 @@ onMounted(calcMaskOffset);
         }
       }
       > main {
-        background-color: var(--popup-background-color);
+        background-color: var(--popup-background-color, var(--popup-background-color-default));
         z-index: 1;
         /*clip-path: inset(max(calc(var(--mask-offset) * 1px) + var(--border-radius), 0px) 0 0 0);
         -webkit-clip-path: inset(max(calc(var(--mask-offset) * 1px) + var(--border-radius), 0px) 0 0 0);*/
@@ -169,7 +177,7 @@ onMounted(calcMaskOffset);
     position: relative;
     border-radius: var(--border-radius);
     overflow: hidden;
-    background-color: var(--popup-background-color);
+    background-color: var(--popup-background-color, var(--popup-background-color-default));
     /*--offset: 20px;
     position: static;
     max-height: calc(100vh + 220px);
@@ -180,15 +188,14 @@ onMounted(calcMaskOffset);
     overflow: scroll;
     clip-path: inset(0% 0% 0% 0% round 12px);
     -webkit-clip-path: inset(0% 0% 0% 0% round 12px);*/
-    > header, > main {
-      
-    }
+    overflow: hidden;
     > header {
       margin-top: 0;
       top: 0;
     }
     > main {
-      
+      max-height: 100%;
+      overflow: hidden;
     }
   }
 }
