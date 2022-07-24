@@ -99,7 +99,12 @@ provide('getPopupIndex', getPopupIndex);
     transform: scale(0.9) translate(0, calc(-3% - var(--offset-top-safe-area)));
   }
   .popups-wrapper {
-    
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    pointer-events: none;
+    left: 0;
+    top: 0;
   }
 }
 .n-popup-provider.dark-mode {

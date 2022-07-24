@@ -100,6 +100,7 @@ onMounted(calcMaskOffset);
 <style scoped lang="scss">
 .n-popup-wrapper {
   position: absolute;
+  pointer-events: all;
   left: 0;
   top: 0;
   width: 100%;
