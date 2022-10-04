@@ -117,7 +117,12 @@ onMounted(calcMaskOffset);
     transition: all 0.5s;
     transform-origin: center 25vh;
     transform: scale(calc(1 - 0.1 * var(--level))) translateY(calc(-5% * var(--level) - 0px));
+    .popup::-webkit-scrollbar {
+      display: none !important;
+    }
     .popup {
+      scrollbar-width: none;
+      -moz-scrollbar-width: none;
       --top: calc(1px * var(--min-offset) + var(--offset-top-safe-area));
       height: calc(100% - var(--top));
       overflow: scroll;
