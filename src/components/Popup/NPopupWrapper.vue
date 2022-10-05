@@ -1,8 +1,8 @@
 <template>
-  <div class="n-popup-wrapper" :class="{ [`type-${ type }`]: true, transculent }" :data-popup-id="id" :style="{ ['--min-offset' as string]: minOffset, ['--max-offset' as string]: maxOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level, ['--popup-background-color-default' as string]: darkMode ? '#2e3337' : 'rgb(252, 252, 252)' }" @click="handleWrapperClick">
+  <div class="n-popup-wrapper" :class="{ [`type-${ type }`]: true, transculent, 'touch-action-active': touchActionActive }" :data-popup-id="id" :style="{ ['--min-offset' as string]: minOffset, ['--max-offset' as string]: maxOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level, ['--popup-background-color-default' as string]: darkMode ? '#2e3337' : 'rgb(252, 252, 252)' }" @click="handleWrapperClick">
     <div class="wrapper-inner">
-      <div ref="popupRef" class="popup">
-        <header ref="headerRef">
+      <div ref="popupRef" class="popup" @scroll="handleScroll">
+        <header ref="headerRef" @touchstart="onTouchstartHeader">
           <slot v-if="slots.header" name="header" />
           <template v-else>
             <section class="area-title">
@@ -37,15 +37,19 @@
         </main>
       </div>
     </div>
+    <div v-if="showScrollbar" class="scroll-thumb" :style="{ ['--thumb-height' as string]: `${ thumbHeight }px`, ['--scroll-thumb-pos' as string]: thumPos + 'px' }" />
   </div>
 </template>
 
 
 <script setup lang="ts">
-import { ref, useSlots, onMounted, VNode, Ref } from 'vue';
+import { ref, useSlots, onMounted, VNode, Ref, onUnmounted, watchEffect, computed } from 'vue';
 import { NButton, NIcon, NScrollbar } from 'naive-ui';
 import { CloseOutline } from '@vicons/ionicons5';
 import isDarkMode from '../../util/isDarkMode';
+import { checkScrollSpeed } from '../../util/scrollSpeed';
+import useElementBBox from '../../util/elementBBox';
+import useScrollHeight from '../../util/scrollHeight';
 
 export interface NPopupWrappedDescriptor {
   id: string;
@@ -58,8 +62,11 @@ export interface NPopupWrappedDescriptor {
   level?: number;
   type: 'layer' | 'frame';
   transculent?: boolean;
+  pullDownTolerance?: number;
 }
-defineProps<NPopupWrappedDescriptor>();
+const props = withDefaults(defineProps<NPopupWrappedDescriptor>(), {
+  pullDownTolerance: 15
+});
 const emit = defineEmits(['close']);
 
 const darkMode = isDarkMode();
@@ -67,12 +74,40 @@ const darkMode = isDarkMode();
 
 const slots = useSlots();
 
+const speed = ref<number>(0);
+
 
 const minOffset = 20;
 const maxOffset = 55;
 
-const popupRef = ref<HTMLDivElement | null>(null);
-const mainRef = ref<HTMLElement | null>();
+const popupRef = ref<HTMLDivElement>();
+const mainRef = ref<HTMLElement>();
+
+const popupBBox = useElementBBox(popupRef);
+const scrollHeight = useScrollHeight(popupRef);
+const minScrollThumbHeight = 50;
+const scrollPadding = 2;
+
+const scrollPos = ref(0);
+
+const thumbHeight = computed(() => {
+  const height = Math.min(Math.max(minScrollThumbHeight, popupBBox.height * (popupBBox.height / scrollHeight.value)), popupBBox.height);
+  return height;
+});
+const thumPos = computed(() => {
+  const progress = (scrollPos.value) / (scrollHeight.value - popupBBox.height);
+  return scrollPadding + (popupBBox.height - thumbHeight.value + minOffset - scrollPadding * 2) * progress;
+});
+
+// watchEffect(() => {
+//   console.log(thumbHeight.value);
+  
+// });
+// watchEffect(() => {
+//   console.log(scrollPos.value);
+  
+// });
+
 
 
 const handleWrapperClick = (event: MouseEvent) => {
@@ -94,10 +129,75 @@ onMounted(() => {
   }
 });
 onMounted(calcMaskOffset);
+
+const touchActionActive = ref(false);
+let touchStartPos = 0;
+const onTouchstartHeader = (event: TouchEvent) => {
+  console.log('touchstart', event);
+  touchActionActive.value = true;
+  if (popupRef.value) {
+    popupRef.value.scrollTop++;
+  }
+
+  touchStartPos = event.touches[0].screenY;
+};
+const onWindowTouchend = () => {
+  touchActionActive.value = false;
+
+  if (speed.value >= props.pullDownTolerance) {
+    emit('close');
+  }
+};
+
+
+let yDelta = 0;
+const onWindowTouchmove = (event: TouchEvent) => {
+  yDelta = event.touches[0].screenY - touchStartPos;
+  //console.log('Y DELTA', event.touches[0].screenY - touchStartPos);
+  
+};
+window.addEventListener('touchend', onWindowTouchend);
+window.addEventListener('touchmove', onWindowTouchmove);
+onUnmounted(() => {
+  window.removeEventListener('touchend', onWindowTouchend);
+  window.removeEventListener('touchmove', onWindowTouchmove);
+});
+
+let scrollSpeedStore = ((max = 5) => {
+  return {
+    state: ([] as number[]),
+    push(speed: number) {
+      this.state.push(speed);
+      this.state = this.state.slice(-max);
+    }
+  };
+})();
+
+const showScrollbar = ref(false);
+let scrollHideTimeout: ReturnType<typeof setTimeout>;
+const handleScroll = (event: Event) => {
+  if (popupRef.value) {
+    if (touchActionActive.value) {
+      const currSpeed = checkScrollSpeed(() => popupRef.value?.scrollTop ?? 0);
+
+      scrollSpeedStore.push(currSpeed);
+      speed.value = Math.abs(Math.min(...scrollSpeedStore.state)); 
+    }
+    scrollPos.value = popupRef.value?.scrollTop;
+    showScrollbar.value = true;
+    clearTimeout(scrollHideTimeout);
+    scrollHideTimeout = setTimeout(() => {
+      showScrollbar.value = false;
+    }, 1000);
+  }
+};
 </script>
 
 
 <style scoped lang="scss">
+.touch-action-active {
+  user-select: none;
+}
 .n-popup-wrapper {
   position: absolute;
   pointer-events: all;
@@ -106,8 +206,27 @@ onMounted(calcMaskOffset);
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+
+  // display: grid;
+  // grid-template-columns: auto max-content;
+  // grid-template-rows: 100%;
+  .scroll-thumb {
+    position: absolute;
+    right: 2px;
+    top: 0;
+    width: 4px;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.5);
+
+    top: max(0px, calc(var(--scroll-thumb-pos)));
+    //--overscroll: min(0px, var(--scroll-thumb-pos));
+    height: calc(var(--thumb-height) + min(0px, var(--scroll-thumb-pos)));
+  }
   
   .wrapper-inner {
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 2;
     /*height: 100%;
     overflow: scroll;
     --offset-y: calc(var(--max-offset) * 1px);
@@ -118,7 +237,7 @@ onMounted(calcMaskOffset);
     transform-origin: center 25vh;
     transform: scale(calc(1 - 0.1 * var(--level))) translateY(calc(-5% * var(--level) - 0px));
     .popup::-webkit-scrollbar {
-      display: none !important;
+      display: none;
     }
     .popup {
       scrollbar-width: none;
@@ -133,6 +252,7 @@ onMounted(calcMaskOffset);
       display: grid;
       grid-template-rows: max-content auto;
       > header {
+        user-select: none;
         margin-top: calc(1px * var(--max-offset));
         background-color: var(--popup-background-color, var(--popup-background-color-default));
         z-index: 2;

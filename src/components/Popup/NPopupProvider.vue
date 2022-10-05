@@ -5,7 +5,7 @@
     </div>
     <div class="popups-wrapper">
       <transition-group name="popup">
-        <n-popup-wrapper v-for="({ slotNodes, slotNodesTitle, slotNodesActions, slotNodesCloseBtn, slotNodesHeader, id, type, transculent }, i) in popups" :id="id" :key="i" :level="popups.length - 1 - i" :type="type" :transculent="transculent" :slot-nodes="slotNodes" :slot-nodes-title="slotNodesTitle" :slot-nodes-actions="slotNodesActions" :slot-nodes-close-btn="slotNodesCloseBtn" :slot-nodes-header="slotNodesHeader" @close="leavePopup(id)">
+        <n-popup-wrapper v-for="({ slotNodes, slotNodesTitle, slotNodesActions, slotNodesCloseBtn, slotNodesHeader, id, type, transculent }, i) in popups" :id="id" :key="i" :level="popups.length - 1 - i" :type="type" :transculent="transculent" :slot-nodes="slotNodes" :slot-nodes-title="slotNodesTitle" :slot-nodes-actions="slotNodesActions" :slot-nodes-close-btn="slotNodesCloseBtn" :slot-nodes-header="slotNodesHeader" :pull-down-tolerance="15" @close="leavePopup(id)">
           <template v-if="slotNodesTitle" #title>
             <component :is="slotNode" v-for="(slotNode, n) in slotNodesTitle" :key="n" />
           </template>

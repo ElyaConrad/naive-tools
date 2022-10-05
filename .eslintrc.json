@@ -21,7 +21,7 @@
   "rules": {
       "vue/max-attributes-per-line": ["error", {
           "singleline": {
-          "max": 12
+            "max": 16
           },      
           "multiline": {
           "max": 1
