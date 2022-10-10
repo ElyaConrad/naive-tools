@@ -1,7 +1,7 @@
 <template>
   <div class="n-popup-wrapper" :class="{ [`type-${ type }`]: true, transculent, 'touch-action-active': touchActionActive }" :data-popup-id="id" :style="{ ['--min-offset' as string]: minOffset, ['--max-offset' as string]: maxOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level, ['--popup-background-color-default' as string]: darkMode ? '#2e3337' : 'rgb(252, 252, 252)' }" @click="handleWrapperClick">
     <div class="wrapper-inner">
-      <div ref="popupRef" class="popup" @scroll="handleScroll">
+      <div ref="popupRef" class="popup" :class="{ 'fixed-height': fixedHeight === true || typeof fixedHeight === 'number' }" :style="{ ['--fixed-height' as string]: typeof fixedHeight === 'number' ? `${ fixedHeight }px` : 'auto' }" @scroll="handleScroll">
         <header ref="headerRef" @touchstart="onTouchstartHeader">
           <slot v-if="slots.header" name="header" />
           <template v-else>
@@ -61,6 +61,7 @@ export interface NPopupWrappedDescriptor {
   title?: string;
   level?: number;
   type: 'layer' | 'frame';
+  fixedHeight?: boolean | number;
   transculent?: boolean;
   pullDownTolerance?: number;
 }
@@ -240,6 +241,7 @@ const handleScroll = (event: Event) => {
       display: none;
     }
     .popup {
+      
       scrollbar-width: none;
       -moz-scrollbar-width: none;
       --top: calc(1px * var(--min-offset) + var(--offset-top-safe-area));
@@ -248,6 +250,7 @@ const handleScroll = (event: Event) => {
       position: relative;
       --border-radius: 12px;
       top: var(--top);
+      
       border-radius: var(--border-radius) var(--border-radius) 0 0;
       display: grid;
       grid-template-rows: max-content auto;
@@ -287,6 +290,12 @@ const handleScroll = (event: Event) => {
         -webkit-clip-path: inset(max(calc(var(--mask-offset) * 1px) + var(--border-radius), 0px) 0 0 0);*/
         
       }
+    }
+    .popup.fixed-height {
+      height: calc(var(--fixed-height) + 1px * var(--max-offset));
+      max-height: calc(100% - var(--top));
+      top: calc(100%);
+      transform: translate(0, -100%);
     }
   }
 }
@@ -360,7 +369,7 @@ const handleScroll = (event: Event) => {
 .popup-enter-from, .popup-leave-to {
   background-color: rgba(0, 0, 0, 0) !important;
   .popup {
-    transform: translate(0, 100%);
+    transform: translate(0, 100%) !important;
   }
 }
 .popup-enter-active.type-frame, .popup-leave-active.type-frame {

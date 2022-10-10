@@ -21,17 +21,19 @@ const props = withDefaults(defineProps<{
   show?: boolean;
   type?: 'layer' | 'frame';
   transculent?: boolean;
+  fixedHeight?: boolean | number;
 }>(), {
   trigger: 'click',
   type: 'layer',
   title: undefined,
-  transculent: false
+  transculent: false,
+  fixedHeight: false
 });
 const emit = defineEmits(['update:show']);
 
 const slots = useSlots();
 
-const showPopup = inject<(id: string, type: 'layer' | 'frame', transculent: boolean, slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot) => void>('showPopup');
+const showPopup = inject<(opts: { id: string, type: 'layer' | 'frame', transculent: boolean, fixedHeight: boolean | number, slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot }) => void>('showPopup');
 const leavePopup = inject<(id: string) => void>('leavePopup');
 const getPopupIndex = inject<(id: string) => number>('getPopupIndex');
 
@@ -54,7 +56,17 @@ const popupIsVisible = computed<boolean>({
             ];
           }) : undefined;
           
-          showPopup(popupId, props.type, props.transculent, slots.default, slotTitle, slots.actions, slots['close-btn'], slots.header);
+          showPopup({
+            id: popupId,
+            type: props.type,
+            transculent: props.transculent,
+            fixedHeight: props.fixedHeight,
+            slot: slots.default,
+            slotTitle,
+            slotActions: slots.actions,
+            slotCloseBtn: slots['close-btn'],
+            slotHeader: slots.header
+          });
         }
       }
       else if (leavePopup) {
