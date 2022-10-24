@@ -1,7 +1,7 @@
 <template>
   <div class="n-popup-wrapper" :class="{ [`type-${ type }`]: true, transculent, 'touch-action-active': touchActionActive }" :data-popup-id="id" :style="{ ['--min-offset' as string]: minOffset, ['--max-offset' as string]: maxOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level, ['--popup-background-color-default' as string]: darkMode ? '#2e3337' : 'rgb(252, 252, 252)' }" @click="handleWrapperClick">
     <div class="wrapper-inner">
-      <div ref="popupRef" class="popup" :class="{ 'fixed-height': fixedHeight === true || typeof fixedHeight === 'number' }" :style="{ ['--fixed-height' as string]: typeof fixedHeight === 'number' ? `${ fixedHeight }px` : 'auto' }" @scroll="handleScroll">
+      <div ref="popupRef" class="popup" :class="{ 'fixed-height': fixedHeight === true || typeof fixedHeight === 'number', 'fixed-width': fixedWidth === true || typeof fixedWidth === 'number' }" :style="{ ['--fixed-height' as string]: typeof fixedHeight === 'number' ? `${ fixedHeight }px` : 'auto', ['--fixed-width' as string]: typeof fixedWidth === 'number' ? `${ fixedWidth }px` : 'auto' }" @scroll="handleScroll">
         <header ref="headerRef" @touchstart="onTouchstartHeader">
           <slot v-if="slots.header" name="header" />
           <template v-else>
@@ -43,7 +43,7 @@
 
 
 <script setup lang="ts">
-import { ref, useSlots, onMounted, VNode, Ref, onUnmounted, watchEffect, computed } from 'vue';
+import { ref, useSlots, onMounted, VNode, Ref, onUnmounted, computed } from 'vue';
 import { NButton, NIcon, NScrollbar } from 'naive-ui';
 import { CloseOutline } from '@vicons/ionicons5';
 import isDarkMode from '../../util/isDarkMode';
@@ -62,6 +62,7 @@ export interface NPopupWrappedDescriptor {
   level?: number;
   type: 'layer' | 'frame';
   fixedHeight?: boolean | number;
+  fixedWidth?: boolean | number;
   transculent?: boolean;
   pullDownTolerance?: number;
 }
@@ -291,12 +292,14 @@ const handleScroll = (event: Event) => {
         
       }
     }
-    .popup.fixed-height {
-      height: calc(var(--fixed-height) + 1px * var(--max-offset));
-      max-height: calc(100% - var(--top));
-      top: calc(100%);
-      transform: translate(0, -100%);
-    }
+  }
+}
+.n-popup-wrapper.type-layer {
+  .popup.fixed-height {
+    height: calc(var(--fixed-height) + 1px * var(--max-offset));
+    max-height: calc(100% - var(--top));
+    top: calc(100%);
+    transform: translate(0, -100%);
   }
 }
 .n-popup-wrapper.type-frame {
@@ -332,6 +335,16 @@ const handleScroll = (event: Event) => {
       max-height: 100%;
       overflow: hidden;
     }
+  }
+  .popup.fixed-height {
+    height: calc(var(--fixed-height));
+    max-height: calc(100% - 40px);
+    top: calc(50% - min(calc(100% - 40px), var(--fixed-height)) / 2);
+  }
+  .popup.fixed-width {
+    width: var(--fixed-width);
+    max-width: calc(100% - 40px);
+    left: calc(50% - min(calc(100% - 40px), var(--fixed-width)) / 2)
   }
 }
 
@@ -381,13 +394,13 @@ const handleScroll = (event: Event) => {
 }
 .popup-enter-from.type-frame, .popup-leave-to.type-frame {
   .popup {
-    transform: scale(0.05);
+    transform: scale(0.05) !important;
     opacity: 0;
   }
 }
 .popup-enter-to.type-frame, .popup-leave-from.type-frame {
   .popup {
-    transform: scale(1);
+    transform: scale(1) !important;
   }
 }
 </style>

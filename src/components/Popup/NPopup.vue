@@ -22,18 +22,20 @@ const props = withDefaults(defineProps<{
   type?: 'layer' | 'frame';
   transculent?: boolean;
   fixedHeight?: boolean | number;
+  fixedWidth?: boolean | number;
 }>(), {
   trigger: 'click',
   type: 'layer',
   title: undefined,
   transculent: false,
-  fixedHeight: false
+  fixedHeight: false,
+  fixedWidth: false
 });
 const emit = defineEmits(['update:show']);
 
 const slots = useSlots();
 
-const showPopup = inject<(opts: { id: string, type: 'layer' | 'frame', transculent: boolean, fixedHeight: boolean | number, slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot }) => void>('showPopup');
+const showPopup = inject<(opts: { id: string, type: 'layer' | 'frame', transculent: boolean, fixedHeight: boolean | number, fixedWidth: boolean | number, slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot }) => void>('showPopup');
 const leavePopup = inject<(id: string) => void>('leavePopup');
 const getPopupIndex = inject<(id: string) => number>('getPopupIndex');
 
@@ -61,6 +63,7 @@ const popupIsVisible = computed<boolean>({
             type: props.type,
             transculent: props.transculent,
             fixedHeight: props.fixedHeight,
+            fixedWidth: props.fixedWidth,
             slot: slots.default,
             slotTitle,
             slotActions: slots.actions,

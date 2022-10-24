@@ -5,7 +5,7 @@
     </div>
     <div class="popups-wrapper">
       <transition-group name="popup">
-        <n-popup-wrapper v-for="({ slotNodes, slotNodesTitle, slotNodesActions, slotNodesCloseBtn, slotNodesHeader, id, type, transculent, fixedHeight }, i) in popups" :id="id" :key="i" :level="popups.length - 1 - i" :type="type" :transculent="transculent" :fixed-height="fixedHeight" :slot-nodes="slotNodes" :slot-nodes-title="slotNodesTitle" :slot-nodes-actions="slotNodesActions" :slot-nodes-close-btn="slotNodesCloseBtn" :slot-nodes-header="slotNodesHeader" :pull-down-tolerance="15" @close="leavePopup(id)">
+        <n-popup-wrapper v-for="({ slotNodes, slotNodesTitle, slotNodesActions, slotNodesCloseBtn, slotNodesHeader, id, type, transculent, fixedHeight, fixedWidth }, i) in popups" :id="id" :key="i" :level="popups.length - 1 - i" :type="type" :transculent="transculent" :fixed-height="fixedHeight" :fixed-width="fixedWidth" :slot-nodes="slotNodes" :slot-nodes-title="slotNodesTitle" :slot-nodes-actions="slotNodesActions" :slot-nodes-close-btn="slotNodesCloseBtn" :slot-nodes-header="slotNodesHeader" :pull-down-tolerance="15" @close="leavePopup(id)">
           <template v-if="slotNodesTitle" #title>
             <component :is="slotNode" v-for="(slotNode, n) in slotNodesTitle" :key="n" />
           </template>
@@ -43,12 +43,13 @@ export type NPopupWrappedDescriptorWrapped = {
   type: 'layer' | 'frame';
   transculent?: boolean;
   fixedHeight?: boolean | number;
+  fixedWidth?: boolean | number;
 }
 
 const darkMode = isDarkMode();
 
 const popups = ref<NPopupWrappedDescriptorWrapped[]>([]);
-function showPopup({ id, type, transculent, fixedHeight, slotTitle, slotActions, slotCloseBtn, slotHeader, slot }: { id: string, type: 'layer' | 'frame', transculent: boolean, fixedHeight: boolean | number, slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot }) {
+function showPopup({ id, type, transculent, fixedHeight, fixedWidth, slotTitle, slotActions, slotCloseBtn, slotHeader, slot }: { id: string, type: 'layer' | 'frame', transculent: boolean, fixedHeight: boolean | number, fixedWidth: boolean | number, slot: VueSlot, slotTitle?: VueSlot, slotActions?: VueSlot, slotCloseBtn?: VueSlot, slotHeader?: VueSlot }) {
   popups.value = [
     ...popups.value,
     {
@@ -60,7 +61,8 @@ function showPopup({ id, type, transculent, fixedHeight, slotTitle, slotActions,
       slotNodesHeader: computed(() => slotHeader ? slotHeader() : undefined),
       type,
       transculent,
-      fixedHeight
+      fixedHeight,
+      fixedWidth
     },
 
   ];
