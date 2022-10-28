@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { NConfigProvider, NButton, NIcon, NSwitch, darkTheme, lightTheme } from 'naive-ui'
-import { NTabsNav, NTabItemNav, NPopupProvider, NPopup } from 'naive-mobile'
+// @ts-expect-error
+import { NTabsNav, NTabItemNav, NPopupProvider, NPopup, NImageUpload } from 'naive-tools'
+import 'naive-tools/style.css'
 import { Accessibility, Apps } from '@vicons/ionicons5'
 
 
@@ -22,12 +24,15 @@ const showP1 = ref(false);
     <n-popup-provider class="popup-provider-1">
       <div class="app" :class="{ 'vertical-tab-nav': verticalTabNav }">
         <section class="content-section">
+          <div>
+            <NImageUpload />
+          </div>
           <n-button @click="darkMode = !darkMode">Dark Mode</n-button>
           <br /><br />
           Vertical NTabsNav
           <n-switch v-model:value="verticalTabNav"></n-switch>
           <br /><br />
-          <n-popup trigger="click" type="frame" title="Hello World!" v-model:show="showP1">
+          <n-popup trigger="click" type="frame" :fixed-width="400" :fixed-height="300" title="Hello World!" v-model:show="showP1">
             <template #trigger>
               <n-button>Open NPopup</n-button>
             </template>
@@ -53,6 +58,7 @@ const showP1 = ref(false);
               </p>
             </n-popup>
           </n-popup>
+          
         </section>
         <section class="nav-section">
           <n-tabs-nav v-model:value="activeTab" :vertical="verticalTabNav" pointer="normal" shape>
