@@ -1,6 +1,6 @@
 {
   "name": "naive-tools",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "description": "",
   "scripts": {
     "serve": "npm link && npm-watch build:dev",
@@ -12,11 +12,12 @@
   },
   "exports": {
     ".": {
-      "import": "./lib/naive-mobile.es.js",
-      "require": "./lib/naive-mobile.umd.js"
+      "import": "./lib/naive-tools.es.js",
+      "require": "./lib/naive-tools.umd.js"
     },
     "./style.css": "./lib/style.css"
   },
+  "types": "./lib/index.d.ts",
   "files": [
     "lib",
     "README.md",
@@ -52,6 +53,7 @@
     "ts-jest": "^27.1.4",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
+    "vite-plugin-dts": "^1.6.6",
     "vue-tsc": "^0.29.8"
   },
   "peerDependencies": {

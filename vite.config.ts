@@ -1,7 +1,7 @@
 import path from 'path';
-import fs from 'fs';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import dts from 'vite-plugin-dts';
 //import { fileURLToPath } from 'url';
 
 //const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -12,8 +12,8 @@ export default defineConfig({
     outDir: './lib',
     lib: {
       entry: path.resolve('src/index.ts'),
-      name: 'naive-mobile',
-      fileName: (format) => `naive-mobile.${ format }.js`,
+      name: 'naive-tools',
+      fileName: (format) => `naive-tools.${ format }.js`,
       formats: ['es', 'umd'/*, 'cjs', 'amd', 'iife', 'system'*/],
     },
     rollupOptions: {
@@ -29,7 +29,8 @@ export default defineConfig({
     },
   },
   plugins: [
-    vue()
+    vue(),
+    dts()
   ],
   resolve: {
     alias: {
