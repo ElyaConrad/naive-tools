@@ -54,7 +54,7 @@ function showPopup({ id, type, transculent, fixedHeight, fixedWidth, slotTitle, 
     ...popups.value,
     {
       id,
-      slotNodes: computed(() => slot()),
+      slotNodes: computed(() => slot ? slot() : undefined),
       slotNodesTitle: computed(() => slotTitle ? slotTitle() : undefined),
       slotNodesActions: computed(() => slotActions ? slotActions() : undefined),
       slotNodesCloseBtn: computed(() => slotCloseBtn ? slotCloseBtn() : undefined),
