@@ -1,7 +1,7 @@
 {
   "name": "naive-tools",
   "private": false,
-  "version": "0.1.25",
+  "version": "0.1.26",
   "type": "module",
   "files": [
     "package.json",
@@ -33,8 +33,10 @@
   "dependencies": {
     "@vicons/ionicons5": "^0.12.0",
     "change-case": "^4.1.2",
+    "color-convert": "^2.0.1",
     "colors-convert": "^1.4.1",
     "compressorjs": "^1.1.1",
+    "gradient-parser": "^1.0.2",
     "vue": "^3.2.37"
   },
   "peerDependencies": {
@@ -42,6 +44,8 @@
     "naive-ui": "^2.33.5"
   },
   "devDependencies": {
+    "@types/color-convert": "^2.0.0",
+    "@types/gradient-parser": "^0.1.2",
     "@types/node": "^18.11.3",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",

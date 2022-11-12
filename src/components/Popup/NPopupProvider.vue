@@ -5,7 +5,7 @@
     </div>
     <div class="popups-wrapper">
       <transition-group name="popup">
-        <n-popup-wrapper v-for="({ slotNodes, slotNodesTitle, slotNodesActions, slotNodesCloseBtn, slotNodesHeader, id, type, transculent, fixedHeight, fixedWidth }, i) in popups" :id="id" :key="i" :level="popups.length - 1 - i" :type="type" :transculent="transculent" :fixed-height="fixedHeight" :fixed-width="fixedWidth" :slot-nodes="slotNodes" :slot-nodes-title="slotNodesTitle" :slot-nodes-actions="slotNodesActions" :slot-nodes-close-btn="slotNodesCloseBtn" :slot-nodes-header="slotNodesHeader" :pull-down-tolerance="15" @close="leavePopup(id)">
+        <n-popup-wrapper v-for="({ slotNodes, slotNodesTitle, slotNodesActions, slotNodesCloseBtn, slotNodesHeader, id, type, transculent, fixedHeight, fixedWidth }, i) in popups" :id="id" :key="i" :level="popups.length - 1 - i" :type="type" :transculent="transculent" :fixed-height="fixedHeight" :fixed-width="fixedWidth" :slot-nodes="(slotNodes as any)" :slot-nodes-title="slotNodesTitle" :slot-nodes-actions="slotNodesActions" :slot-nodes-close-btn="slotNodesCloseBtn" :slot-nodes-header="slotNodesHeader" :pull-down-tolerance="15" @close="leavePopup(id)">
           <template v-if="slotNodesTitle" #title>
             <component :is="slotNode" v-for="(slotNode, n) in slotNodesTitle" :key="n" />
           </template>
@@ -33,7 +33,7 @@ export type VueSlot = () => VNode[];
 
 export type NPopupWrappedDescriptorWrapped = {
   id: string;
-  slotNodes: ComputedRef<Ref<VNode[]>>;
+  slotNodes: ComputedRef<Ref<VNode[] | undefined>>;
   slotNodesTitle?: ComputedRef<Ref<VNode[] | undefined>>;
   slotNodesCloseBtn?: ComputedRef<Ref<VNode[] | undefined>>;
   slotNodesActions?: ComputedRef<Ref<VNode[] | undefined>>;
