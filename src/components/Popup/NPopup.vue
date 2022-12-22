@@ -88,7 +88,7 @@ watch(() => props.show, () => {
   if (props.show !== popupIsVisible.value) {
     popupIsVisible.value = !!props.show;
   }
-});
+}, { immediate: true });
 
 
 
