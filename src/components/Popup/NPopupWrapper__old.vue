@@ -1,45 +1,3 @@
-<!-- <template>
-  <div class="n-popup-provider">
-    LOL
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref, useSlots, onMounted, VNode, Ref, onUnmounted, computed } from 'vue';
-import { NButton, NIcon, NScrollbar } from 'naive-ui';
-import { CloseOutline } from '@vicons/ionicons5';
-import isDarkMode from '../../util/isDarkMode';
-import { checkScrollSpeed } from '../../util/scrollSpeed';
-import useElementBBox from '../../util/elementBBox';
-import useScrollHeight from '../../util/scrollHeight';
-
-export interface NPopupWrappedDescriptor {
-  id: string;
-  slotNodes: Ref<VNode[]>;
-  slotNodesTitle?: Ref<VNode[] | undefined>;
-  slotNodesCloseBtn?: Ref<VNode[] | undefined>;
-  slotNodesActions?: Ref<VNode[] | undefined>;
-  slotNodesHeader?: Ref<VNode[] | undefined>;
-  title?: string;
-  level?: number;
-  type: 'layer' | 'frame';
-  fixedHeight?: boolean | number;
-  fixedWidth?: boolean | number;
-  transculent?: boolean;
-  pullDownTolerance?: number;
-}
-const props = withDefaults(defineProps<NPopupWrappedDescriptor>(), {
-  pullDownTolerance: 15
-});
-const emit = defineEmits(['close']);
-
-const darkMode = isDarkMode();
-
-console.log('YOU WELCOME');
-
-
-</script> -->
-
 <template>
   <div class="n-popup-wrapper" :class="{ [`type-${ type }`]: true, transculent, 'touch-action-active': touchActionActive }" :data-popup-id="id" :style="{ ['--min-offset' as string]: minOffset, ['--max-offset' as string]: maxOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level, ['--popup-background-color-default' as string]: darkMode ? '#2e3337' : 'rgb(252, 252, 252)' }" @click="handleWrapperClick">
     <div class="wrapper-inner">
@@ -70,6 +28,7 @@ console.log('YOU WELCOME');
           </template>
         </header>
         <main ref="mainRef">
+          HOHOHO
           <template v-if="type === 'frame'">
             <n-scrollbar>
               <component :is="popupVNode" v-for="(popupVNode, i) in slotNodes" :key="i" />
@@ -347,8 +306,6 @@ const handleScroll = (event: Event) => {
 .n-popup-wrapper.type-frame {
   .wrapper-inner {
     overflow: hidden;
-    display: grid !important;
-    place-items: center;
     
   }
   .popup {
@@ -356,7 +313,7 @@ const handleScroll = (event: Event) => {
     max-height: calc(100vh - 40px);
     top: calc(40px / 2);
     left: calc(40px / 2);
-    position: static;
+    position: relative;
     border-radius: var(--border-radius);
     overflow: hidden;
     background-color: var(--popup-background-color, var(--popup-background-color-default));

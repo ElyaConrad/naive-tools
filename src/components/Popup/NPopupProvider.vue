@@ -94,7 +94,8 @@ provide('getPopupIndex', getPopupIndex);
   }
   .app-wrapper.unfocused {
     filter: brightness(0.9);
-    border-radius: 10px;
+    // Chrome is buggy
+    //border-radius: 10px;
     clip-path: inset(0 0 0 0 round 10px);
     -webkit-clip-path: inset(0 0 0 0 round 10px);
     overflow: hidden;
