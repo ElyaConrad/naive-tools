@@ -83,8 +83,7 @@ const popupIsVisible = computed<boolean>({
 watch(popupIsVisible, (newState: boolean) => {
   emit('update:show', newState);
 });
-watch(() => props.show, () => {
-  
+watch(() => props.show, newShow => {
   if (props.show !== popupIsVisible.value) {
     popupIsVisible.value = !!props.show;
   }
@@ -103,6 +102,15 @@ const handleTriggerMouseenter = () => {
   }
   
 };
+
+const destroy = () => {
+  popupIsVisible.value = false;
+}
+
+
+defineExpose({
+  destroy
+});
 </script>
 
 
