@@ -105,7 +105,7 @@ const handleTriggerMouseenter = () => {
 
 const destroy = () => {
   popupIsVisible.value = false;
-}
+};
 
 
 defineExpose({
