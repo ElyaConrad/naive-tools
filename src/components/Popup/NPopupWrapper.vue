@@ -43,7 +43,7 @@ console.log('YOU WELCOME');
 <template>
   <div class="n-popup-wrapper" :class="{ [`type-${ type }`]: true, transculent, 'touch-action-active': touchActionActive }" :data-popup-id="id" :style="{ ['--min-offset' as string]: minOffset, ['--max-offset' as string]: maxOffset, ['--mask-offset' as string]: maskOffset, ['--level' as string]: level, ['--popup-background-color-default' as string]: darkMode ? '#2e3337' : 'rgb(252, 252, 252)' }" @click="handleWrapperClick">
     <div class="wrapper-inner">
-      <div ref="popupRef" class="popup" :class="{ 'fixed-height': fixedHeight === true || typeof fixedHeight === 'number', 'fixed-width': fixedWidth === true || typeof fixedWidth === 'number' }" :style="{ ['--fixed-height' as string]: typeof fixedHeight === 'number' ? `${ fixedHeight }px` : 'auto', ['--fixed-width' as string]: typeof fixedWidth === 'number' ? `${ fixedWidth }px` : 'auto' }" @scroll="handleScroll">
+      <div ref="popupRef" class="popup" :class="{ 'fixed-height': fixedHeight === true || typeof fixedHeight === 'number', 'fixed-width': fixedWidth === true || typeof fixedWidth === 'number', ...Object.fromEntries(customClasses.map(name => [name, true])) }" :style="{ ['--fixed-height' as string]: typeof fixedHeight === 'number' ? `${ fixedHeight }px` : 'auto', ['--fixed-width' as string]: typeof fixedWidth === 'number' ? `${ fixedWidth }px` : 'auto' }" @scroll="handleScroll">
         <header ref="headerRef" @touchstart="onTouchstartHeader">
           <slot v-if="slots.header" name="header" />
           <template v-else>
@@ -107,9 +107,12 @@ export interface NPopupWrappedDescriptor {
   fixedWidth?: boolean | number;
   transculent?: boolean;
   pullDownTolerance?: number;
+  customClasses: string[];
+  minOffset: number;
+  maxOffset: number;
 }
 const props = withDefaults(defineProps<NPopupWrappedDescriptor>(), {
-  pullDownTolerance: 15
+  pullDownTolerance: 15,
 });
 const emit = defineEmits(['close']);
 
@@ -121,8 +124,8 @@ const slots = useSlots();
 const speed = ref<number>(0);
 
 
-const minOffset = 20;
-const maxOffset = 55;
+const minOffset = computed(() => props.minOffset);
+const maxOffset = computed(() => props.maxOffset);
 
 const popupRef = ref<HTMLDivElement>();
 const mainRef = ref<HTMLElement>();
@@ -140,7 +143,7 @@ const thumbHeight = computed(() => {
 });
 const thumPos = computed(() => {
   const progress = (scrollPos.value) / (scrollHeight.value - popupBBox.height);
-  return scrollPadding + (popupBBox.height - thumbHeight.value + minOffset - scrollPadding * 2) * progress;
+  return scrollPadding + (popupBBox.height - thumbHeight.value + minOffset.value - scrollPadding * 2) * progress;
 });
 
 // watchEffect(() => {
@@ -165,7 +168,7 @@ const handleWrapperClick = (event: MouseEvent) => {
 const maskOffset = ref(0);
 const calcMaskOffset = () => {
   const offsetMainY = mainRef.value?.getBoundingClientRect()?.y ?? 0;
-  maskOffset.value = -offsetMainY + minOffset;
+  maskOffset.value = -offsetMainY + minOffset.value;
 };
 onMounted(() => {
   if (popupRef.value) {
