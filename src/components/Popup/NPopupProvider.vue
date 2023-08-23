@@ -47,10 +47,13 @@ export type NPopupWrappedDescriptorWrapped = {
   customClasses: string[];
 }
 
-const props = defineProps<{
-  minOffset: number;
-  maxOffset: number;
-}>();
+const props = withDefaults(defineProps<{
+  minOffset?: number;
+  maxOffset?: number;
+}>(), {
+  minOffset: 20,
+  maxOffset: 55
+});
 
 const darkMode = isDarkMode();
 
