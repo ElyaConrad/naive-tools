@@ -59,7 +59,6 @@ const popupIsVisible = computed<boolean>({
               h(NH2, { innerHTML: props.title })
             ];
           }) : undefined;
-          
           showPopup({
             id: popupId,
             type: props.type,
@@ -90,6 +89,8 @@ watch(() => props.show, newShow => {
   if (props.show !== popupIsVisible.value) {
     popupIsVisible.value = !!props.show;
   }
+}, {
+  immediate: true
 });
 
 
