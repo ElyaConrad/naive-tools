@@ -1,7 +1,7 @@
 {
   "name": "naive-tools",
   "private": false,
-  "version": "0.1.41",
+  "version": "0.1.42",
   "type": "module",
   "files": [
     "package.json",
@@ -41,7 +41,7 @@
   },
   "peerDependencies": {
     "naive-tools": "^0.1.23",
-    "naive-ui": "^2.33.5"
+    "naive-ui": "^2.36.0"
   },
   "devDependencies": {
     "@types/color-convert": "^2.0.0",
