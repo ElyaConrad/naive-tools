@@ -1,7 +1,7 @@
 {
   "name": "naive-tools",
   "private": false,
-  "version": "0.1.42",
+  "version": "0.1.43",
   "type": "module",
   "files": [
     "package.json",
@@ -40,7 +40,6 @@
     "vue": "3.3.4"
   },
   "peerDependencies": {
-    "naive-tools": "^0.1.23",
     "naive-ui": "^2.36.0"
   },
   "devDependencies": {
