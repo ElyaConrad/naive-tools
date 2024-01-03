@@ -1,7 +1,7 @@
 {
   "name": "naive-tools",
   "private": false,
-  "version": "0.1.43",
+  "version": "0.1.44",
   "type": "module",
   "files": [
     "package.json",
@@ -37,10 +37,10 @@
     "colors-convert": "^1.4.1",
     "compressorjs": "^1.1.1",
     "gradient-parser": "^1.0.2",
-    "vue": "3.3.4"
+    "vue": "^3.3.4"
   },
   "peerDependencies": {
-    "naive-ui": "^2.36.0"
+    "naive-ui": "^2.33.5"
   },
   "devDependencies": {
     "@types/color-convert": "^2.0.0",
