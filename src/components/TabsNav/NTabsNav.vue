@@ -80,6 +80,7 @@ const activeTabItemName = computed({
     return props.value;
   },
   set(name: string) {
+
     emit("update:value", name);
   },
 });
@@ -97,6 +98,7 @@ const activeTabItemIndex = computed(() => {
   const activeTabItem = childs.value.find(
     (child: any) => child.props?.name === activeTabItemName.value
   );
+  
   if (activeTabItem) {
     return childs.value.indexOf(activeTabItem);
   } else {

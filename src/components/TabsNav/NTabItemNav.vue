@@ -30,6 +30,8 @@ const activeTabItemName = inject('activeTabItemName') as Ref<string>;
 const isActive = computed(() => activeTabItemName.value === props.name);
 
 const handleClick = () => {
+  console.log('click', props.name);
+  
   activeTabItemName.value = props.name;
 };
 
