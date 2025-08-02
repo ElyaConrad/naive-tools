@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, reactive, Ref, watch } from 'vue';
+import { onUnmounted, reactive, Ref, watch } from 'vue';
 
 export default function useElementBBox(elementRef: Ref<Element | undefined>) {
   const bbox = reactive<{ x: number; y: number; width: number; height: number; }>({ x: 0, y: 0, width: 0, height: 0 });

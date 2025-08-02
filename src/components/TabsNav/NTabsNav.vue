@@ -19,36 +19,25 @@
 </template>
 
 <script setup lang="ts">
-import { hexToRgba, colorToString } from "colors-convert";
-import { useThemeVars } from "naive-ui";
-import {
-  ref,
-  computed,
-  onMounted,
-  provide,
-  useSlots,
-  VNode,
-  RendererNode,
-  RendererElement,
-  toRef,
-  watchEffect,
-} from "vue";
-import { NTabItemNavProps } from "./NTabItemNav.vue";
-import { toCSSVars } from "../../util/helpers";
+import { hexToRgba, colorToString } from 'colors-convert';
+import { useThemeVars } from 'naive-ui';
+import { ref, computed, provide, useSlots, VNode, RendererNode, RendererElement, toRef, watchEffect } from 'vue';
+import { NTabItemNavProps } from './NTabItemNav.vue';
+import { toCSSVars } from '../../util/helpers';
 
 type NTabNavProps = {
   value: string;
-  pointer?: "normal" | "opposite" | "none";
+  pointer?: 'normal' | 'opposite' | 'none';
   shape?: boolean;
   vertical?: boolean;
 };
 
 const props = withDefaults(defineProps<NTabNavProps>(), {
-  pointer: "normal",
+  pointer: 'normal',
   shape: false,
   vertical: true,
 });
-const emit = defineEmits(["update:value"]);
+const emit = defineEmits(['update:value']);
 
 const slots = useSlots();
 
@@ -56,20 +45,16 @@ const theme = useThemeVars();
 
 const innerRef = ref<HTMLDivElement | null>(null);
 
-const shape = toRef(props, "shape");
-provide("shape", shape);
-const pointer = toRef(props, "pointer");
-provide("pointer", pointer);
-const vertical = toRef(props, "vertical");
-provide("vertical", vertical);
+const shape = toRef(props, 'shape');
+provide('shape', shape);
+const pointer = toRef(props, 'pointer');
+provide('pointer', pointer);
+const vertical = toRef(props, 'vertical');
+provide('vertical', vertical);
 
 const tabItems = computed(() => {
   if (slots.default) {
-    return slots.default() as VNode<
-      RendererNode,
-      RendererElement,
-      NTabItemNavProps
-    >[];
+    return slots.default() as VNode<RendererNode, RendererElement, NTabItemNavProps>[];
   } else {
     return [];
   }
@@ -80,32 +65,22 @@ const activeTabItemName = computed({
     return props.value;
   },
   set(name: string) {
-
-    emit("update:value", name);
+    emit('update:value', name);
   },
 });
 
-const childs = computed(
-  () =>
-    Array.from(tabItems.value[0].children as any) as VNode<
-      RendererNode,
-      RendererElement,
-      NTabItemNavProps
-    >[]
-);
+const childs = computed(() => Array.from(tabItems.value[0].children as any) as VNode<RendererNode, RendererElement, NTabItemNavProps>[]);
 
 const activeTabItemIndex = computed(() => {
-  const activeTabItem = childs.value.find(
-    (child: any) => child.props?.name === activeTabItemName.value
-  );
-  
+  const activeTabItem = childs.value.find((child: any) => child.props?.name === activeTabItemName.value);
+
   if (activeTabItem) {
     return childs.value.indexOf(activeTabItem);
   } else {
     return -1;
   }
 });
-provide("activeTabItemName", activeTabItemName);
+provide('activeTabItemName', activeTabItemName);
 
 const themeCSSVars = computed(() => {
   // @ts-expect-error type is okay

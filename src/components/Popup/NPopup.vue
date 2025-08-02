@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSlots, inject, computed, watch, h, watchEffect } from 'vue';
+import { useSlots, inject, computed, watch, h } from 'vue';
 import { nanoid } from 'nanoid';
 import { NH2 } from 'naive-ui';
 import { VueSlot } from './NPopupProvider.vue';

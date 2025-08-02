@@ -1,4 +1,4 @@
-import { openFile, imageInfo, blobToDataURL } from './helpers';
+import { openFile, imageInfo } from './helpers';
 import Compressor from 'compressorjs';
 
 export type UploadImageOptions = {
